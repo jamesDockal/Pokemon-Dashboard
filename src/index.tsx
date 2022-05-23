@@ -7,8 +7,10 @@ const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container as Element);
 
 root.render(
-  <React.StrictMode>
+  <>
     <ColorModeScript />
     <App />
-  </React.StrictMode>
+  </>
 );
+{
+}

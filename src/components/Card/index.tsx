@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
 import { Badge, Box, Image, useDisclosure } from "@chakra-ui/react";
 
@@ -34,50 +34,57 @@ type Props = {
   };
 };
 
-export const Card: React.FC<Props> = ({ pokemon }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+export const Card = forwardRef<HTMLDivElement, Props>(
+  ({ pokemon }: Props, ref) => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
-  return (
-    <Box
-      borderWidth="1px"
-      borderRadius="lg"
-      display={"flex"}
-      alignItems="center"
-      flexDirection={"column"}
-      justifyContent={"center"}
-      onMouseEnter={onOpen}
-      onMouseLeave={onClose}
-      cursor={"pointer"}
-    >
-      <Image
-        src={isOpen ? pokemon.url.back : pokemon.url.front}
-        alt={pokemon.name}
-      />
+    return (
+      <Box
+        ref={ref}
+        borderWidth="1px"
+        borderRadius="lg"
+        display={"flex"}
+        alignItems="center"
+        flexDirection={"column"}
+        justifyContent={"center"}
+        onMouseEnter={onOpen}
+        onMouseLeave={onClose}
+        cursor={"pointer"}
+      >
+        <Image
+          src={isOpen ? pokemon.url.back : pokemon.url.front}
+          alt={pokemon.name}
+        />
 
-      <Box p="6">
-        <Box display="flex" gap={2} justifyContent="center">
-          {pokemon.types.map((type) => {
-            return (
-              <Badge borderRadius="full" px="2" color={TypeColor[type] as any}>
-                {type}
-              </Badge>
-            );
-          })}
-        </Box>
+        <Box p="6">
+          <Box display="flex" gap={2} justifyContent="center">
+            {pokemon.types.map((type) => {
+              return (
+                <Badge
+                  borderRadius="full"
+                  px="2"
+                  color={TypeColor[type] as any}
+                >
+                  {type}
+                </Badge>
+              );
+            })}
+          </Box>
 
-        <Box
-          mt="1"
-          fontWeight="semibold"
-          as="h4"
-          lineHeight="tight"
-          noOfLines={1}
-          display={"flex"}
-          alignItems="center"
-          flexDirection={"column"}
-        >
-          {pokemon.name}
+          <Box
+            mt="1"
+            fontWeight="semibold"
+            as="h4"
+            lineHeight="tight"
+            noOfLines={1}
+            display={"flex"}
+            alignItems="center"
+            flexDirection={"column"}
+          >
+            {pokemon.name}
+          </Box>
         </Box>
       </Box>
-    </Box>
-  );
-};
+    );
+  }
+);
