@@ -24,7 +24,6 @@ export const Home: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const observer = useRef<any>();
-
   const lastCardRef = useCallback(
     (node: any) => {
       if (isLoading) return;

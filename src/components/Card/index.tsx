@@ -2,26 +2,8 @@ import React, { forwardRef } from "react";
 
 import { Badge, Box, Image, useDisclosure } from "@chakra-ui/react";
 
-const TypeColor: any = {
-  normal: "#A8A878",
-  fire: "#F08030",
-  water: "#6890F0",
-  electric: "#F8D030",
-  grass: "#78C850",
-  ice: "#98D8D8",
-  fighting: "#C03028",
-  poison: "#A040A0",
-  ground: "#E0C068",
-  flying: "#A890F0",
-  psychic: "#F85888",
-  bug: "#A8B820",
-  rock: "#B8A038",
-  ghost: "#705898",
-  dragon: "#7038F8",
-  dark: "#705848",
-  steel: "#B8B8D0",
-  fairy: "#EE99AC",
-};
+import { useNavigate } from "react-router-dom";
+import { TypeColor } from "../../styles/typeColors";
 
 type Props = {
   pokemon: {
@@ -38,13 +20,26 @@ export const Card = forwardRef<HTMLDivElement, Props>(
   ({ pokemon }: Props, ref) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
+    const gradient =
+      pokemon.types.length === 1
+        ? `${TypeColor[pokemon.types[0]]}, ${TypeColor[pokemon.types[0]]}`
+        : pokemon.types.map((type) => TypeColor[type]).join(",");
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+      return navigate(`/pokemon/${pokemon.name.toLowerCase()}`);
+    };
+
     return (
       <Box
+        onClick={handleClick}
         ref={ref}
         borderWidth="1px"
         borderRadius="lg"
         display={"flex"}
         alignItems="center"
+        pt={3}
         flexDirection={"column"}
         justifyContent={"center"}
         onMouseEnter={onOpen}
@@ -54,6 +49,8 @@ export const Card = forwardRef<HTMLDivElement, Props>(
         <Image
           src={isOpen ? pokemon.url.back : pokemon.url.front}
           alt={pokemon.name}
+          bgGradient={`linear(to-br, ${gradient})`}
+          borderRadius={16}
         />
 
         <Box p="6">
